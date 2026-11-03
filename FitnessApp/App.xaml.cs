@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using FitnessApp.Data;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 
@@ -9,6 +10,16 @@ namespace FitnessApp
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            // Принудительное создание базы данных и таблиц
+            using (var context = new AppDbContext())
+            {
+                context.Database.EnsureCreated();
+            }
+        }
     }
 
 }
