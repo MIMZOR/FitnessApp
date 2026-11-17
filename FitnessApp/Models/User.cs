@@ -16,13 +16,7 @@ namespace FitnessApp.Models
         public string password_hash { get; set; } = string.Empty;
 
         [MaxLength(255)]
-        public string email { get; set; } = string.Empty;
-
-        [MaxLength(255)]
         public string first_name { get; set; } = string.Empty;
-
-        [MaxLength(255)]
-        public string last_name { get; set; } = string.Empty;
 
         public DateTime created_at { get; set; } = DateTime.Now;
         public DateTime updated_at { get; set; } = DateTime.Now;

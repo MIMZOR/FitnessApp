@@ -10,7 +10,7 @@ namespace FitnessApp.Models
         public int day_plan_id { get; set; }
         public int week_plan_id { get; set; }
         [MaxLength(7)]
-        public string day_of_week { get; set; } = string.Empty; // Например "Monday"
+        public string day_of_week { get; set; } = string.Empty;
         public DateTime plan_date { get; set; }
         public int muscle_group_id { get; set; }
         [MaxLength(255)]

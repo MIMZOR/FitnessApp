@@ -11,7 +11,7 @@ namespace FitnessApp.Models
         public int user_id { get; set; }
         public int day_plan_id { get; set; }
         public DateTime session_date { get; set; }
-        public TimeSpan started_at { get; set; } // В БД time(7)
+        public TimeSpan started_at { get; set; }
         public TimeSpan finished_at { get; set; }
         [MaxLength(255)]
         public string status { get; set; } = string.Empty;

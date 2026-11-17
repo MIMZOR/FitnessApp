@@ -1,0 +1,83 @@
+﻿<Window x:Class="FitnessApp.Views.DashboardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Личный кабинет - Фитнес-Дневник" Height="500" Width="600" 
+        WindowStartupLocation="CenterScreen" Background="#F4F6F8">
+
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок и приветствие -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,30">
+            <TextBlock Text="Личный кабинет" FontSize="28" FontWeight="Bold" Foreground="#2C3E50"/>
+            <TextBlock Text="{Binding first_name, StringFormat='Привет, {0}! Готов к тренировке?'}" 
+                       FontSize="16" Foreground="#7F8C8D" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <!-- Блок с информацией о пользователе -->
+        <Border Grid.Row="1" Background="#FFFFFF" CornerRadius="8" Padding="15" Margin="0,0,0,20" 
+                BorderBrush="#E0E0E0" BorderThickness="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding login, StringFormat='Логин: {0}   |   '}" Foreground="#34495E" FontWeight="SemiBold"/>
+                <TextBlock Text="{Binding user_id, StringFormat='Ваш ID в системе: {0}'}" Foreground="#E74C3C" FontWeight="SemiBold"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Сетка с кнопками -->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Кнопка 1: Начать тренировку -->
+            <Button Grid.Row="0" Grid.Column="0" Margin="5" Background="#3498DB" Foreground="White" 
+                    FontSize="18" FontWeight="Bold" Cursor="Hand" Click="StartWorkout_Click">
+                <StackPanel>
+                    <TextBlock Text="🏋️" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                    <TextBlock Text="Начать тренировку"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Кнопка 2: Расписание -->
+            <Button Grid.Row="0" Grid.Column="1" Margin="5" Background="#2ECC71" Foreground="White" 
+                    FontSize="18" FontWeight="Bold" Cursor="Hand" Click="Schedule_Click">
+                <StackPanel>
+                    <TextBlock Text="📅" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                    <TextBlock Text="Моё расписание"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Кнопка 3: Статистика -->
+            <Button Grid.Row="1" Grid.Column="0" Margin="5" Background="#9B59B6" Foreground="White" 
+                    FontSize="18" FontWeight="Bold" Cursor="Hand" Click="Statistics_Click">
+                <StackPanel>
+                    <TextBlock Text="📊" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                    <TextBlock Text="Статистика"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Кнопка 4: Упражнения -->
+            <Button Grid.Row="1" Grid.Column="1" Margin="5" Background="#F39C12" Foreground="White" 
+                    FontSize="18" FontWeight="Bold" Cursor="Hand" Click="Exercises_Click">
+                <StackPanel>
+                    <TextBlock Text="🏃" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                    <TextBlock Text="Справочник упражнений"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <!-- Нижняя панель -->
+        <Button Grid.Row="3" Content="Выйти из аккаунта" HorizontalAlignment="Right" 
+                Width="150" Padding="5" Margin="0,20,0,0" Click="Logout_Click"/>
+    </Grid>
+</Window>
