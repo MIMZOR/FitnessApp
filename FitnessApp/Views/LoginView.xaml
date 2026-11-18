@@ -11,10 +11,6 @@
 
     <!-- Белая карточка по центру экрана -->
     <Border Background="White" CornerRadius="10" Margin="40" Padding="20">
-        <Border.Effect>
-            <DropShadowEffect Color="Black" Opacity="0.1" BlurRadius="15" ShadowDepth="5"/>
-        </Border.Effect>
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

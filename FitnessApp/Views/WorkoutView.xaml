@@ -1,5 +1,0 @@
-﻿<Window x:Class="FitnessApp.Views.WorkoutView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="" Height="300" Width="400" WindowStartupLocation="CenterScreen">
-</Window>

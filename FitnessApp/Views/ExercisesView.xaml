@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="FitnessApp.Views.ExercisesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:FitnessApp.ViewModels" Cursor="">
+    
+    <UserControl.DataContext>
+        <vm:ExerciseViewModel/>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Блок добавления нового упражнения (Форма) -->
+        <Border Grid.Row="0" Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.05" BlurRadius="10" ShadowDepth="2"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Левая часть: Название и группа -->
+                <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                    <TextBlock Text="Название упражнения" Foreground="#576574" Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding NewExerciseName, UpdateSourceTrigger=PropertyChanged}" Height="35" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+                    
+                    <TextBlock Text="Группа мышц" Foreground="#576574" Margin="0,0,0,5"/>
+                    <ComboBox ItemsSource="{Binding MuscleGroups}" DisplayMemberPath="name" 
+                              SelectedItem="{Binding SelectedMuscleGroup}" Height="35" VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Правая часть: Описание и кнопка -->
+                <StackPanel Grid.Column="1" Margin="0,0,15,0">
+                    <TextBlock Text="Описание (техника выполнения, советы)" Foreground="#576574" Margin="0,0,0,5"/>
+                    <!-- Многострочное поле ввода -->
+                    <TextBox Text="{Binding NewExerciseDesc, UpdateSourceTrigger=PropertyChanged}" 
+                             Height="80" TextWrapping="Wrap" AcceptsReturn="True" 
+                             VerticalScrollBarVisibility="Auto" Padding="5"/>
+                </StackPanel>
+
+                <Button Grid.Column="2" Content="Добавить" Command="{Binding AddExerciseCommand}" 
+                        VerticalAlignment="Bottom" Height="35" Width="100" Background="#3498DB" Foreground="White" BorderThickness="0" Cursor="Hand" FontWeight="SemiBold"/>
+            </Grid>
+        </Border>
+
+        <!-- Список существующих упражнений (Красивые карточки) -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <!-- Используем ItemsControl вместо DataGrid для гибкого дизайна -->
+            <ItemsControl ItemsSource="{Binding Exercises}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Карточка упражнения -->
+                        <Border Background="White" CornerRadius="8" Margin="0,0,0,10" Padding="15" BorderBrush="#E0E0E0" BorderThickness="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <!-- Название и бейдж группы -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="{Binding name}" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,15,0"/>
+                                        
+                                        <!-- Бейдж группы мышц -->
+                                        <Border Background="#E8F4FD" CornerRadius="10" Padding="8,2" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding MuscleGroup.name}" FontSize="12" Foreground="#3498DB" FontWeight="SemiBold"/>
+                                        </Border>
+                                    </StackPanel>
+                                    
+                                    <!-- Описание -->
+                                    <TextBlock Text="{Binding description}" Foreground="#7F8C8D" TextWrapping="Wrap" FontSize="14"/>
+                                </StackPanel>
+
+                                <!-- Кнопка удаления -->
+                                <!-- Кнопка удаления (показывается только если is_custom == true) -->
+                                <Button Grid.Column="1" Content="Удалить" 
+        Command="{Binding DataContext.DeleteExerciseCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+        CommandParameter="{Binding}" 
+        Background="#FFEEEE" Foreground="#E74C3C" BorderThickness="0" 
+        Margin="10,0,0,0" Padding="10,5" Cursor="Hand" VerticalAlignment="Center"
+        Visibility="{Binding is_custom, Converter={StaticResource BoolToVis}}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

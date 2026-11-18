@@ -1,83 +1,135 @@
 ﻿<Window x:Class="FitnessApp.Views.DashboardWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Личный кабинет - Фитнес-Дневник" Height="500" Width="600" 
+        Title="Фитнес-Дневник" Height="700" Width="1000" 
         WindowStartupLocation="CenterScreen" Background="#F4F6F8">
 
-    <Grid Margin="30">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <!-- РЕСУРСЫ ДОЛЖНЫ БЫТЬ СВЕРХУ, ДО ТОГО КАК ИХ ИСПОЛЬЗУЮТ -->
+    <Window.Resources>
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#BDC3C7"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="15,12"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <!-- Убираем стандартную рамку кнопки и делаем скругленные углы -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <!-- Эффект при наведении -->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#34495E"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 
-        <!-- Заголовок и приветствие -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,30">
-            <TextBlock Text="Личный кабинет" FontSize="28" FontWeight="Bold" Foreground="#2C3E50"/>
-            <TextBlock Text="{Binding first_name, StringFormat='Привет, {0}! Готов к тренировке?'}" 
-                       FontSize="16" Foreground="#7F8C8D" Margin="0,5,0,0"/>
-        </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- Боковое меню -->
+            <ColumnDefinition Width="240"/>
+            <!-- Рабочая область -->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Блок с информацией о пользователе -->
-        <Border Grid.Row="1" Background="#FFFFFF" CornerRadius="8" Padding="15" Margin="0,0,0,20" 
-                BorderBrush="#E0E0E0" BorderThickness="1">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding login, StringFormat='Логин: {0}   |   '}" Foreground="#34495E" FontWeight="SemiBold"/>
-                <TextBlock Text="{Binding user_id, StringFormat='Ваш ID в системе: {0}'}" Foreground="#E74C3C" FontWeight="SemiBold"/>
-            </StackPanel>
+        <!-- ЛЕВАЯ ПАНЕЛЬ (SIDEBAR) -->
+        <Border Grid.Column="0" Background="#2C3E50">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Логотип -->
+                <TextBlock Grid.Row="0" Text="FitnessApp" FontSize="26" FontWeight="Bold" 
+                           Foreground="White" HorizontalAlignment="Center" Margin="0,30,0,40"/>
+
+                <!-- Меню -->
+                <StackPanel Grid.Row="1" Margin="10,0">
+                    <!-- Улучшенные кнопки: иконка и текст выровнены идеально -->
+                    <Button Click="Nav_Click" Tag="Главная" Style="{StaticResource MenuButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🏠" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Главная" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Click="StartWorkout_Click" Style="{StaticResource MenuButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🏋️" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Тренировка" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Click="Schedule_Click" Style="{StaticResource MenuButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📅" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Расписание" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Click="Statistics_Click" Style="{StaticResource MenuButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📊" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Статистика" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Click="Exercises_Click" Style="{StaticResource MenuButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🏃" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Упражнения" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!-- Профиль и выход -->
+                <StackPanel Grid.Row="2" Margin="10,0,10,20">
+                    <Separator Background="#34495E" Margin="0,0,0,15"/>
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,15">
+                        <!-- Аватарка-заглушка -->
+                        <Border Width="40" Height="40" CornerRadius="20" Background="#3498DB" Margin="0,0,10,0">
+                            <TextBlock Text="U" Foreground="White" FontSize="20" FontWeight="Bold" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{Binding first_name}" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
+                            <TextBlock Text="{Binding login, StringFormat='@{0}'}" Foreground="#BDC3C7" FontSize="12"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button Content="Выйти" Click="Logout_Click" Background="#E74C3C" Foreground="White" 
+                            BorderThickness="0" Padding="10,8" Cursor="Hand"/>
+                </StackPanel>
+            </Grid>
         </Border>
 
-        <!-- Сетка с кнопками -->
-        <Grid Grid.Row="2">
+        <!-- ПРАВАЯ ПАНЕЛЬ (КОНТЕНТ) -->
+        <Grid Grid.Column="1" Margin="30">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <!-- Кнопка 1: Начать тренировку -->
-            <Button Grid.Row="0" Grid.Column="0" Margin="5" Background="#3498DB" Foreground="White" 
-                    FontSize="18" FontWeight="Bold" Cursor="Hand" Click="StartWorkout_Click">
-                <StackPanel>
-                    <TextBlock Text="🏋️" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,5"/>
-                    <TextBlock Text="Начать тренировку"/>
-                </StackPanel>
-            </Button>
+            <!-- Заголовок и приветствие -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,30">
+                <TextBlock x:Name="PageTitle" Text="Главная" FontSize="32" FontWeight="Bold" Foreground="#2C3E50"/>
+                <TextBlock Text="{Binding first_name, StringFormat='С возвращением, {0}!'}" Foreground="#7F8C8D" FontSize="16" Margin="0,5,0,0">
+                    <Run Text="{Binding user_id, Mode=OneWay}" Foreground="#E74C3C" FontWeight="Bold"/>
+                </TextBlock>
+            </StackPanel>
 
-            <!-- Кнопка 2: Расписание -->
-            <Button Grid.Row="0" Grid.Column="1" Margin="5" Background="#2ECC71" Foreground="White" 
-                    FontSize="18" FontWeight="Bold" Cursor="Hand" Click="Schedule_Click">
-                <StackPanel>
-                    <TextBlock Text="📅" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,5"/>
-                    <TextBlock Text="Моё расписание"/>
-                </StackPanel>
-            </Button>
-
-            <!-- Кнопка 3: Статистика -->
-            <Button Grid.Row="1" Grid.Column="0" Margin="5" Background="#9B59B6" Foreground="White" 
-                    FontSize="18" FontWeight="Bold" Cursor="Hand" Click="Statistics_Click">
-                <StackPanel>
-                    <TextBlock Text="📊" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,5"/>
-                    <TextBlock Text="Статистика"/>
-                </StackPanel>
-            </Button>
-
-            <!-- Кнопка 4: Упражнения -->
-            <Button Grid.Row="1" Grid.Column="1" Margin="5" Background="#F39C12" Foreground="White" 
-                    FontSize="18" FontWeight="Bold" Cursor="Hand" Click="Exercises_Click">
-                <StackPanel>
-                    <TextBlock Text="🏃" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,5"/>
-                    <TextBlock Text="Справочник упражнений"/>
-                </StackPanel>
-            </Button>
+            <!-- Сюда будут загружаться страницы -->
+            <ContentControl x:Name="MainContent" Grid.Row="1" Grid.RowSpan="2" Margin="0,10,0,0"/>
         </Grid>
-
-        <!-- Нижняя панель -->
-        <Button Grid.Row="3" Content="Выйти из аккаунта" HorizontalAlignment="Right" 
-                Width="150" Padding="5" Margin="0,20,0,0" Click="Logout_Click"/>
     </Grid>
 </Window>

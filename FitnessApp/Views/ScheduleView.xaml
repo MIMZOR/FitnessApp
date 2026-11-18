@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="FitnessApp.Views.ScheduleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:FitnessApp.ViewModels">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Список дней недели -->
+        <ListBox Grid.Column="0" ItemsSource="{Binding WeekDays}" SelectedItem="{Binding SelectedDay}" 
+                 BorderThickness="0" Background="Transparent" Margin="0,0,20,0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="0,5">
+                        <TextBlock Text="{Binding day_of_week}" FontSize="18" FontWeight="Bold" Foreground="#2C3E50"/>
+                        <TextBlock Text="{Binding plan_date, StringFormat='{}{0:dd.MM.yyyy}'}" Foreground="#7F8C8D"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- Детали выбранного дня -->
+        <Border Grid.Column="1" Background="White" CornerRadius="10" Padding="20">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.05" BlurRadius="10" ShadowDepth="2"/>
+            </Border.Effect>
+            <StackPanel>
+                <TextBlock Text="{Binding SelectedDay.day_of_week, StringFormat='План на {0}'}" FontSize="24" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,20"/>
+
+                <TextBlock Text="Название тренировки:" Foreground="#576574" Margin="0,0,0,5"/>
+                <TextBox Text="{Binding SelectedDay.title, UpdateSourceTrigger=PropertyChanged}" Height="35" Padding="5,0" FontSize="14" VerticalContentAlignment="Center" BorderBrush="#D1D8E0" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Группа мышц:" Foreground="#576574" Margin="0,0,0,5"/>
+                <ComboBox ItemsSource="{Binding MuscleGroups}" DisplayMemberPath="name" 
+                          SelectedValuePath="muscle_group_id" SelectedValue="{Binding SelectedDay.muscle_group_id}" 
+                          Height="35" Margin="0,0,0,15"/>
+
+                <CheckBox Content="День отдыха" IsChecked="{Binding SelectedDay.is_rest_day}" FontSize="16" Margin="0,0,0,20"/>
+
+                <Button Content="Сохранить план" Command="{Binding SaveDayPlanCommand}" 
+                        Width="150" Height="40" HorizontalAlignment="Left" Background="#3498DB" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

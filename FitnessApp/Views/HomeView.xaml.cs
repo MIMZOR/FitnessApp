@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace FitnessApp.Views
 {
     /// <summary>
-    /// Логика взаимодействия для WorkoutView.xaml
+    /// Логика взаимодействия для HomeView.xaml
     /// </summary>
-    public partial class WorkoutView : Window
+    public partial class HomeView : UserControl
     {
-        public WorkoutView()
+        public HomeView()
         {
             InitializeComponent();
         }

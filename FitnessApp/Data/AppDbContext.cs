@@ -11,6 +11,7 @@ namespace FitnessApp.Data
         public DbSet<WorkoutSession> WorkoutSessions { get; set; }
         public DbSet<SetLog> SetLogs { get; set; }
         public DbSet<MuscleGroup> MuscleGroups { get; set; }
+        public DbSet<Exercise> Exercises { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
